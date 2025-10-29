@@ -4,6 +4,17 @@ title = 'FSD Ad'
 
 theme = "fsdad"
 
+[menus]
+  [[menus.main]]
+    name = 'Clips'
+    pageRef = '/clips'
+    weight = 25
+
+  [[menus.main]]
+    name = 'Tags'
+    pageRef = '/tags'
+    weight = 30
+
 [build]
   [build.buildStats]
     enable = true

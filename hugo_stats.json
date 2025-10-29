@@ -32,7 +32,6 @@
       "mb-4",
       "mt-4",
       "mx-auto",
-      "p-8",
       "px-4",
       "py-2",
       "py-8",
@@ -46,13 +45,8 @@
       "text-gray-500",
       "text-gray-700",
       "text-gray-900",
-      "text-green-600",
       "text-pretty",
-      "text-sky-300",
-      "text-sky-400",
-      "text-sky-500",
-      "text-sky-600",
-      "text-sky-800"
+      "text-sky-500"
     ],
     "ids": null
   }
