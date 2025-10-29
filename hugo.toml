@@ -10,11 +10,6 @@ theme = "fsdad"
     pageRef = '/clips'
     weight = 25
 
-  [[menus.main]]
-    name = 'Tags'
-    pageRef = '/tags'
-    weight = 30
-
 [build]
   [build.buildStats]
     enable = true
