@@ -51,3 +51,36 @@ resource "cloudflare_pages_domain" "fsdad_com" {
   name         = "fsdad.com"
 }
 
+resource "cloudflare_pages_domain" "www_fsdad_com" {
+  account_id   = local.cloudflare_account_id
+  project_name = cloudflare_pages_project.fsdad_com.name
+  name         = "www.fsdad.com"
+}
+
+data "cloudflare_zone" "this" {
+  filter = {
+    account = {
+      id = local.cloudflare_account_id
+    }
+    name = "fsdad.com"
+  }
+}
+
+resource "cloudflare_dns_record" "fsdad_com_cname" {
+  zone_id = data.cloudflare_zone.this.zone_id
+  name    = data.cloudflare_zone.this.name
+  ttl     = 1
+  proxied = true
+  type    = "CNAME"
+  content = cloudflare_pages_project.fsdad_com.subdomain
+}
+
+resource "cloudflare_dns_record" "www_fsdad_com_cname" {
+  zone_id = data.cloudflare_zone.this.zone_id
+  name    = "www"
+  ttl     = 1
+  proxied = true
+  type    = "CNAME"
+  content = cloudflare_pages_project.fsdad_com.subdomain
+}
+
