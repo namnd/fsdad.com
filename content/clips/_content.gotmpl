@@ -1,0 +1,49 @@
+{{/* Get remote data. */}}
+
+{{ $data := dict }}
+{{ $url := "https://docs.google.com/spreadsheets/d/e/2PACX-1vSJmmUEYIurOHp7PkmYPDTn9m8_470jXoEO_bjK7hq5ek6zVe-fMaDH39nEcITxbOXpfQx9ttOazwnw/pub?output=csv" }}
+
+{{/* Create a seed and random URL to bust cache set by Google Sheets. See https://www.youtube.com/watch?v=_PlDMok-yUg for more on this */}}
+
+{{ $seed := now.Unix }}
+{{ $randUrl := (printf "&rando=%s" (printf "%.10s" (sha256 $seed)) | printf "%s%s" $url | printf "%s") }}
+
+{{ with try (resources.GetRemote $randUrl) }}
+  {{ with .Err }}
+    {{ errorf "Unable to get remote resource %s: %s" $url . }}
+  {{ else with .Value }}
+    {{ $data = . | transform.Unmarshal  }}
+  {{ end }}
+{{ else }}
+  {{ errorf "Unable to get remote resource %s" $url }}
+{{ end }}
+
+{{/* Add pages and page resources. */}}
+
+{{ range after 1 $data }}
+
+  {{ $url := index . 0 }}
+  {{ $user := index . 1 }}
+  {{ $title := index . 2 }}
+  {{ $publish := index . 3 }}
+  {{ $thumbnail := index . 4 }}
+
+  {{/* Add page. */}}
+
+  {{ $content := dict "mediaType" "text/markdown" "value" $title }}
+  {{ $params := dict "title" $title "url" $url "user" $user "title" $title "thumbnail" $thumbnail "publish" $publish }}
+
+  {{ $page := dict
+    "content" $content
+    "kind" "page"
+    "params" $params
+    "path" $url
+    "title" $title
+  }}
+
+  {{ if eq $publish "yes" }}
+    {{ $.AddPage $page }}
+  {{ end }}
+
+{{ end }}
+

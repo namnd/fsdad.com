@@ -1,8 +1,19 @@
 {{ define "main" }}
-  <h1>{{ .Title }}</h1>
   {{ .Content }}
-  {{ range .Pages }}
-    <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-    {{ .Summary }}
+  <ul class="mt-2 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+  {{ range where .Pages "Section" "clips" }}
+  <a href="{{ .Params.url }}" target="_blank">
+    <div class="relative w-full bg-gray-400 rounded-lg overflow-hidden aspect-video group">
+      <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
+        <div class="w-16 h-16 bg-black/50 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition">
+          <div class="w-0 h-0 border-l-[18px] border-l-white border-y-[12px] border-y-transparent ml-1"></div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 bg-black/10">
+        <p class="text-sm text-left font-medium m-3">{{ .Title }}</p>
+        </div>
+      </div>
+    </div>
+  </a>
   {{ end }}
+  </ul>
 {{ end }}
