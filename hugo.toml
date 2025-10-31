@@ -10,6 +10,11 @@ theme = "fsdad"
     pageRef = '/clips'
     weight = 25
 
+  [[menus.main]]
+    name = 'Source code'
+    url = 'https://github.com/namnd/fsdad.com'
+    weight = 100
+
 [build]
   [build.buildStats]
     enable = true
