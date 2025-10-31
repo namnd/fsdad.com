@@ -1,21 +1,11 @@
-{{/* Get remote data. */}}
-
 {{ $data := dict }}
-{{ $url := "https://docs.google.com/spreadsheets/d/e/2PACX-1vSJmmUEYIurOHp7PkmYPDTn9m8_470jXoEO_bjK7hq5ek6zVe-fMaDH39nEcITxbOXpfQx9ttOazwnw/pub?output=csv" }}
-
-{{/* Create a seed and random URL to bust cache set by Google Sheets. See https://www.youtube.com/watch?v=_PlDMok-yUg for more on this */}}
-
-{{ $seed := now.Unix }}
-{{ $randUrl := (printf "&rando=%s" (printf "%.10s" (sha256 $seed)) | printf "%s%s" $url | printf "%s") }}
-
-{{ with try (resources.GetRemote $randUrl) }}
-  {{ with .Err }}
-    {{ errorf "Unable to get remote resource %s: %s" $url . }}
-  {{ else with .Value }}
-    {{ $data = . | transform.Unmarshal  }}
+{{ $path := "data/clips.csv" }}
+{{ with resources.Get $path }}
+  {{ with . | transform.Unmarshal }}
+    {{ $data = . }}
   {{ end }}
 {{ else }}
-  {{ errorf "Unable to get remote resource %s" $url }}
+  {{ errorf "Unable to get global resource %q" $path }}
 {{ end }}
 
 {{/* Add pages and page resources. */}}
