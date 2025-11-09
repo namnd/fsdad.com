@@ -15,11 +15,6 @@ theme = "fsdad"
     url = 'https://submit.fsdad.com'
     weight = 50
 
-  [[menus.main]]
-    name = 'Source code'
-    url = 'https://github.com/namnd/fsdad.com'
-    weight = 100
-
 [build]
   [build.buildStats]
     enable = true
