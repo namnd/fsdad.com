@@ -1,27 +1,33 @@
-{{ $data := dict }}
-{{ $path := "data/clips.csv" }}
-{{ with resources.Get $path }}
-  {{ with . | transform.Unmarshal }}
-    {{ $data = . }}
+{{ $content := dict }}
+
+{{ $url := "https://submit.fsdad.com/list" }}
+
+{{ with try (resources.GetRemote $url) }}
+  {{ with .Err }}
+    {{ errorf "%s" . }}
+  {{ else with .Value }}
+    {{ $content = .Content | transform.Unmarshal }}
+  {{ else }}
+    {{ errorf "Unable to get remote resource %q" $url }}
   {{ end }}
-{{ else }}
-  {{ errorf "Unable to get global resource %q" $path }}
 {{ end }}
 
 {{/* Add pages and page resources. */}}
 
-{{ range after 1 $data }}
+{{ range $k, $v := $content }}
 
-  {{ $url := index . 0 }}
-  {{ $user := index . 1 }}
-  {{ $title := index . 2 }}
-  {{ $publish := index . 3 }}
-  {{ $thumbnail := index . 4 }}
+  {{ $data := $v | transform.Unmarshal }}
+  {{ $url := $k }}
+  {{ $user := $data.nickname }}
+  {{ $handle := $data.username }}
+  {{ $avatar := $data.user_avatar }}
+  {{ $title := $data.title }}
+  {{ $thumbnail := $data.thumbnail }}
 
   {{/* Add page. */}}
 
   {{ $content := dict "mediaType" "text/markdown" "value" $title }}
-  {{ $params := dict "title" $title "url" $url "user" $user "title" $title "thumbnail" $thumbnail "publish" $publish }}
+  {{ $params := dict "title" $title "url" $url "user" $user "handle" $handle "avatar" $avatar "title" $title "thumbnail" $thumbnail }}
 
   {{ $page := dict
     "content" $content
@@ -31,9 +37,7 @@
     "title" $title
   }}
 
-  {{ if eq $publish "yes" }}
-    {{ $.AddPage $page }}
-  {{ end }}
+{{ $.AddPage $page }}
 
 {{ end }}
 

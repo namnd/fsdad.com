@@ -5,13 +5,19 @@
   <a href="{{ .Params.url }}" target="_blank">
     <div class="relative w-full bg-gray-400 rounded-lg overflow-hidden aspect-video group bg-[url({{ .Params.thumbnail }})] bg-cover">
       <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
-        <div class="absolute top-2 right-0">
-          <span class="text-xs text-white rounded-tl rounded-bl bg-black/60 p-1">{{ .Params.user }}</span></div>
+        <div class="absolute top-2 right-0 flex rounded-tl rounded-bl bg-black/60 text-xs text-white text-center">
+          <div>
+            <img src={{ .Params.avatar }} class="rounded-tl rounded-bl" />
+          </div>
+          <div class="p-1">
+          {{ .Params.user }}<br />{{ .Params.handle }}
+          </div>
+        </div>
         <div class="w-16 h-16 bg-black/50 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition">
           <div class="w-0 h-0 border-l-[18px] border-l-white border-y-[12px] border-y-transparent ml-1"></div>
         </div>
         <div class="absolute bottom-0 left-0 right-0 bg-black/50">
-          <p class="text-sm text-left font-medium m-3">{{ .Title }}</p>
+          <p class="text-xs text-left font-medium m-3">{{ .Title | truncate 100 }}</p>
         </div>
       </div>
     </div>
