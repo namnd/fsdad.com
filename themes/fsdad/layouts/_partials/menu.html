@@ -27,6 +27,9 @@ Renders a menu for the given menu ID.
     {{- else if $page.HasMenuCurrent .Menu .}}
       {{- $attrs = merge $attrs (dict "class" "ancestor" "aria-current" "true") }}
     {{- end }}
+    {{- if hasPrefix .URL "https://" }}
+      {{- $attrs = merge $attrs (dict "target" "_blank" )}}
+    {{- end }}
     {{- $name := .Name }}
     {{- with .Identifier }}
       {{- with T . }}

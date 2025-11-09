@@ -11,6 +11,11 @@ theme = "fsdad"
     weight = 25
 
   [[menus.main]]
+    name = 'Submit'
+    url = 'https://submit.fsdad.com'
+    weight = 50
+
+  [[menus.main]]
     name = 'Source code'
     url = 'https://github.com/namnd/fsdad.com'
     weight = 100
