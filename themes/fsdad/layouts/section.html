@@ -5,12 +5,12 @@
   <a href="{{ .Params.url }}" target="_blank">
     <div class="relative w-full bg-gray-400 rounded-lg overflow-hidden aspect-video group bg-[url({{ .Params.thumbnail }})] bg-cover">
       <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
-        <div class="absolute top-2 right-0 flex rounded-tl rounded-bl bg-black/60 text-xs text-white text-center">
+        <div class="absolute top-2 right-0 flex rounded-tl rounded-bl bg-black/60 text-[14px] text-white text-center">
           <div>
             <img src={{ .Params.avatar }} class="rounded-tl rounded-bl" />
           </div>
-          <div class="p-1">
-          {{ .Params.user }}<br />{{ .Params.handle }}
+          <div class="items-center px-2 flex flex-inline">
+            {{ .Params.user }}<br />{{ .Params.handle }}
           </div>
         </div>
         <div class="w-16 h-16 bg-black/50 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition">
